@@ -1,0 +1,1053 @@
+@font-face {
+    font-family: 'Pixhobo';
+    src: url('./fonts/pixhobo.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'eas';
+    src: url('./fonts/easvhs.ttf') format('truetype');
+}
+
+body {
+    font-family: 'Pixhobo', Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    position: relative;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    background: transparent;
+}
+
+.screen {
+    background-color: rgba(0, 0, 0, 0.85);
+    padding: 40px;
+    border-radius: 20px;
+    border: 3px solid #333;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.1),
+                inset 0 0 20px rgba(255, 255, 255, 0.1);
+    max-width: 600px;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+    margin: 20px;
+    color: red;
+}
+
+.section {
+    background-color: rgba(255, 255, 255, 0.1);
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 5px;
+    border: 1px solid #fff;
+}
+
+.hidden {
+    display: none !important;
+}
+
+#player-hand-container, #card-pile {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.35);
+    border-radius: 5px;
+    border: 3px solid rgba(51, 51, 51, 0.35);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.05),
+                inset 0 0 20px rgba(255, 255, 255, 0.05);
+}
+#player-hand-container::before {
+    /* content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0; */
+    background: linear-gradient(45deg, 
+        rgba(255, 255, 255, 0.1) 0%, 
+        rgba(0, 0, 0, 0) 50%, 
+        rgba(255, 255, 255, 0.1) 100%);
+    pointer-events: none;
+    /* border-radius: 20px; */
+}
+
+#player-hand {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.card {
+    width: 50px;
+    height: 80px;
+    background-color: rgb(15, 15, 15);
+    border: 1px solid black;
+    color: rgb(233, 233, 233);
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#game-code-display {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid #fff;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+#displayed-game-code {
+    color: #cfcfcf;
+    /* text-shadow: 0 0 10px #fff; */
+}
+#player-name {
+    padding: 5px;
+    box-sizing: border-box;
+}
+#game-code {
+    /* margin-bottom: 10px; */
+    padding: 5px;
+    width: 70%;
+    box-sizing: border-box;
+}
+
+#player-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+#player-list li {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid #fff;
+    color: #fff;
+    margin-bottom: 8px;
+    padding: 8px 16px;
+    border-radius: 3px;
+}
+
+#game-info {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#last-played-card {
+    font-size: 1.2em;
+    text-align: center;
+    padding: 10px;
+    background-color: rgb(15, 15, 15);
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+#played-cards {
+    position: relative;
+    width: 60px;
+    height: 90px;
+}
+
+.played-card {
+    position: absolute;
+    width: 60px;
+    height: 90px;
+    background-color: rgb(15, 15, 15);
+    border: 1px solid #ccc;
+    color: rgb(233, 233, 233);
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8em;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.played-card .card-number {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.played-card .player-name {
+    font-size: 0.7em;
+    color: #666;
+}
+
+#round-banner {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 8px 24px;
+    border-radius: 0 0 8px 8px;
+    font-size: 1.2em;
+    font-weight: bold;
+    display: flex;
+    gap: 8px;
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+
+#round-banner span:first-child {
+    color: #ccc;
+}
+
+#current-round {
+    color: #fff;
+}
+
+/* Adjust game screen padding to account for banner */
+#game-screen {
+    padding-top: 60px;
+}
+
+.game-table {
+    position: relative;
+    top: 40%; 
+    width: 40%; 
+    height: 50%;
+    background-color: rgba(0, 0, 0, 0.85);
+    border-radius: 300px;
+    margin: 20px auto;
+    border: 3px solid #333;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.1),
+                inset 0 0 20px rgba(255, 255, 255, 0.1);
+    overflow: visible;
+    position: absolute;
+    /* top: 30%; */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+}
+
+.game-table::before {
+    /* content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0; */
+    background: linear-gradient(45deg, 
+        rgba(255, 255, 255, 0.1) 0%, 
+        rgba(0, 0, 0, 0) 50%, 
+        rgba(255, 255, 255, 0.1) 100%);
+    pointer-events: none;
+    /* border-radius: 20px; */
+}
+
+.table-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200px;
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: auto;  /* Add this line */
+    z-index: 100000;  /* Add this line */
+}
+
+.player-seats {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+.player-seat {
+    position: absolute;
+    width: 140px;
+    background-color: rgba(0, 0, 0, 00);
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    z-index: 10;
+}
+
+.player-seat .player-name {
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 10px;
+}
+
+
+
+.player-cards {
+    position: relative;
+    
+    display: flex;
+    justify-content: center;
+    gap: -25px; /* Change from 0 to negative value for overlap */
+    transform: translateY(-10px);
+    perspective: 1000px;
+    min-height: 40px;
+    width: 300%;
+    padding-top: 5px;
+}
+
+.card-back {
+    width: 30px;
+    height: 40px;
+    background: rgb(15, 15, 15);
+    border: 2px solid #ccc;
+    border-radius: 3px;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    position: relative;
+    transform-style: preserve-3d;
+    transition: all 0.5s ease-in-out;
+    perspective: 1000px;
+    margin-left: -15px; /* Add negative margin for overlap */
+}
+
+/* Add this to ensure first card doesn't have negative margin */
+.card-back:first-child {
+    margin-left: 0;
+}
+
+.card-back span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotateY(180deg);
+    backface-visibility: hidden;
+    font-weight: bold;
+    color: rgb(233, 233, 233);
+    font-size: 10px;
+    opacity: 0;
+    transition: all 0.5s ease-in-out;
+}
+
+/* Add these new styles */
+.player-cards {
+    display: flex;
+    justify-content: center;
+    gap: -10px;
+    transform: translateY(-10px);
+    perspective: 1000px; /* Add perspective to the container */
+}
+
+.card-back:first-child {
+    margin-left: 0;
+}
+#player-hand-container {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    height: 12%;
+    max-width: 600px;
+    border: 3px solid #333;
+    border-radius: 15px;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.85);
+    display: flex;
+    align-items: center;
+}
+
+#player-hand {
+    display: flex;
+    justify-content: center;
+    transform-origin: bottom center;
+    padding: 0;
+    /* Take full width to allow proper centering */
+    width: 100%;
+    /* Add this to ensure proper stacking context */
+    position: relative;
+}
+
+/* Add these new hover effect styles */
+#player-hand .card:hover {
+    transform: translateY(-20px);
+    z-index: 10;
+}
+
+#player-hand .card:hover + .card {
+    transform: translateX(15px);
+}
+
+#player-hand .card:has(+ .card:hover) {
+    transform: translateX(-15px);
+}
+
+#start-game {
+    position: relative;  /* Change from absolute to relative */
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 20px;
+    margin-bottom: 20px;  /* Add bottom margin for spacing */
+}
+
+.card {
+    width: 60px;
+    height: 90px;
+    background-color: rgb(15, 15, 15);
+    border: 2px solid #000;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: -10px;
+    cursor: pointer;
+    font-weight: bold;
+    position: relative;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    color: rgb(233, 233, 233);
+    /* Update transition to include all properties we'll animate */
+    transition: transform 0.3s ease-out, z-index 0s;
+    transform-origin: bottom center;
+    z-index: 1;
+}
+
+/* Remove or update the existing hover style that might conflict */
+.card:hover {
+    /* Remove this if it exists */
+    /* transform: translateY(-20px); */
+    z-index: 10;
+}
+
+#played-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    justify-content: center;
+    align-items: center;
+}
+
+.played-card {
+    width: 50px;
+    height: 75px;
+    background-color: rgb(15, 15, 15);
+    color: rgb(233, 233, 233);
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8em;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.player-avatar {
+    width: 50px;
+    height: 50px;
+    background-color: #666;
+    border-radius: 50%;
+    margin: 0 auto;
+    border: 2px solid #fff;
+}
+
+.player-seat.current-player {
+    background-color: rgba(0, 128, 0, 0);
+}
+
+#game-screen.screen {
+    max-width: none;
+    width: 100vw;
+    height: 100vh;
+    padding: 0;
+    background: none;
+    box-shadow: none;
+    margin: 0;
+}
+
+.text-container {
+    z-index: 100;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
+    justify-content: center;
+    align-items: center;
+    font-size: 96px;
+    color: white;
+    opacity: 0.8;
+    user-select: none;
+    text-shadow: 1px 1px rgba(0, 0, 0, 0.1);
+}
+:root {
+    --color-bg1: #000000;
+    --color-bg2: #202020;
+    --color1: 239, 71, 111;
+    --color2: 255, 209, 102;
+    --color3: 6, 214, 160;
+    --color4: 17, 138, 178;
+    --color5: 180, 180, 50;
+    --color-interactive: 140, 100, 255;
+    --circle-size: 80%;
+    --blending: hard-light;
+}
+@keyframes moveInCircle {
+    0% {
+        transform: rotate(0deg);
+   }
+    50% {
+        transform: rotate(180deg);
+   }
+    100% {
+        transform: rotate(360deg);
+   }
+}
+@keyframes moveVertical {
+    0% {
+        transform: translateY(-50%);
+   }
+    50% {
+        transform: translateY(50%);
+   }
+    100% {
+        transform: translateY(-50%);
+   }
+}
+@keyframes moveHorizontal {
+    0% {
+        transform: translateX(-50%) translateY(-10%);
+   }
+    50% {
+        transform: translateX(50%) translateY(10%);
+   }
+    100% {
+        transform: translateX(-50%) translateY(-10%);
+   }
+}
+.gradient-bg {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    overflow: hidden;
+    background: linear-gradient(40deg, var(--color-bg1), var(--color-bg2));
+    top: 0;
+    left: 0;
+    z-index: -3;
+}
+.gradient-bg svg {
+    display: none;
+}
+.gradient-bg .gradients-container {
+    filter: url(#goo) blur(40px);
+    width: 100%;
+    height: 100%;
+}
+.gradient-bg .g1 {
+    position: absolute;
+    background: radial-gradient(circle at center, rgba(var(--color1), 0.8) 0, rgba(var(--color1), 0) 50%) no-repeat;
+    mix-blend-mode: var(--blending);
+    width: var(--circle-size);
+    height: var(--circle-size);
+    top: calc(50% - var(--circle-size) / 2);
+    left: calc(50% - var(--circle-size) / 2);
+    transform-origin: center center;
+    animation: moveVertical 30s ease infinite;
+    opacity: 1;
+}
+.gradient-bg .g2 {
+    position: absolute;
+    background: radial-gradient(circle at center, rgba(var(--color2), 0.8) 0, rgba(var(--color2), 0) 50%) no-repeat;
+    mix-blend-mode: var(--blending);
+    width: var(--circle-size);
+    height: var(--circle-size);
+    top: calc(50% - var(--circle-size) / 2);
+    left: calc(50% - var(--circle-size) / 2);
+    transform-origin: calc(50% - 400px);
+    animation: moveInCircle 20s reverse infinite;
+    opacity: 1;
+}
+.gradient-bg .g3 {
+    position: absolute;
+    background: radial-gradient(circle at center, rgba(var(--color3), 0.8) 0, rgba(var(--color3), 0) 50%) no-repeat;
+    mix-blend-mode: var(--blending);
+    width: var(--circle-size);
+    height: var(--circle-size);
+    top: calc(50% - var(--circle-size) / 2 + 200px);
+    left: calc(50% - var(--circle-size) / 2 - 500px);
+    transform-origin: calc(50% + 400px);
+    animation: moveInCircle 40s linear infinite;
+    opacity: 1;
+}
+.gradient-bg .g4 {
+    position: absolute;
+    background: radial-gradient(circle at center, rgba(var(--color4), 0.8) 0, rgba(var(--color4), 0) 50%) no-repeat;
+    mix-blend-mode: var(--blending);
+    width: var(--circle-size);
+    height: var(--circle-size);
+    top: calc(50% - var(--circle-size) / 2);
+    left: calc(50% - var(--circle-size) / 2);
+    transform-origin: calc(50% - 200px);
+    animation: moveHorizontal 40s ease infinite;
+    opacity: 0.7;
+}
+.gradient-bg .g5 {
+    position: absolute;
+    background: radial-gradient(circle at center, rgba(var(--color5), 0.8) 0, rgba(var(--color5), 0) 50%) no-repeat;
+    mix-blend-mode: var(--blending);
+    width: calc(var(--circle-size) * 2);
+    height: calc(var(--circle-size) * 2);
+    top: calc(50% - var(--circle-size));
+    left: calc(50% - var(--circle-size));
+    transform-origin: calc(50% - 800px) calc(50% + 200px);
+    animation: moveInCircle 20s ease infinite;
+    opacity: 1;
+}
+.gradient-bg .interactive {
+    position: absolute;
+    background: radial-gradient(circle at center, rgba(var(--color-interactive), 0.8) 0, rgba(var(--color-interactive), 0) 50%) no-repeat;
+    mix-blend-mode: var(--blending);
+    width: 100%;
+    height: 100%;
+    top: -50%;
+    left: -50%;
+    opacity: 0.7;
+}
+
+
+.scanlines {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+    opacity: 0.6;
+    will-change: opacity;
+    animation: opacity 3s linear infinite;
+}
+.scanlines:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, .5) 51%);
+    background-size: 100% 4px;
+    will-change: background, background-size;
+    animation: scanlines 0.8s linear infinite;
+}
+
+@keyframes scanlines {
+    from {
+      background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, .5) 51%);
+          background-size: 100% 4px;
+    }
+    to {
+      background: linear-gradient(to bottom, rgba(0, 0, 0, .5) 50%, transparent 51%);
+          background-size: 100% 4px;
+    }
+  }
+
+#webgl-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -2;
+    pointer-events: none;
+}
+
+
+
+/* Add styles for the title */
+h1 {
+    color: #fff;
+    text-shadow: 0 0 10px #fff;
+    font-size: 3em;
+    margin-bottom: 30px;
+}
+
+/* Style the input fields */
+input[type="text"] {
+    background-color: #000;
+    border: 2px solid #d8d8d8;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    outline: none;
+    font-family: 'Pixhobo', monospace;
+    transition: all 0.5s;
+}
+
+input[type="text"]:focus {
+    box-shadow: 0 0 10px #fff;
+}
+
+/* Style the buttons */
+button {
+    background-color: #000;
+    border: 2px solid #d8d8d8;
+    color: #d8d8d8;
+    padding: 12px 24px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Pixhobo', monospace;
+    font-size: 1.1em;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+button:hover {
+    background-color: #fff;
+    color: #000;
+    box-shadow: 0 0 15px #fff;
+}
+
+/* Add a subtle glow effect to the screen */
+.screen::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, 
+        rgba(255, 255, 255, 0.1) 0%, 
+        rgba(0, 0, 0, 0) 50%, 
+        rgba(255, 255, 255, 0.1) 100%);
+    pointer-events: none;
+    border-radius: 20px;
+}
+
+
+/* Style headings */
+h2, h3 {
+    color: #fff;
+    /* text-shadow: 0 0 5px #fff; */
+    margin-bottom: 15px;
+}
+
+/* Add placeholder styling */
+::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* Update the home screen styles */
+#home-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+#home-screen h1 {
+    margin: 0;
+    text-align: center;
+}
+
+#home-screen input[type="text"] {
+    width: 80%;
+    max-width: 300px;
+    margin: 0;
+    float: none;
+}
+
+#home-screen button {
+    width: 80%;
+    max-width: 300px;
+}
+
+.copy-message {
+    color: #4CAF50;
+    font-size: 0.9em;
+    margin-top: 8px;
+    animation: fadeIn 0.3s ease-in;
+    opacity: 1;
+    transition: opacity 0.3s ease-out;
+}
+
+.copy-message.fade-out {
+    opacity: 0;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes tablePulse {
+    0% {
+        border-color: #333;
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.1),
+                    inset 0 0 20px rgba(255, 255, 255, 0.1);
+    }
+    30% {
+        border-color: #fff;
+        box-shadow: 0 0 30px rgba(255, 255, 255, 0.4),
+                    inset 0 0 30px rgba(255, 255, 255, 0.4);
+    }
+    100% {
+        border-color: #333;
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.1),
+                    inset 0 0 20px rgba(255, 255, 255, 0.1);
+    }
+}
+
+@keyframes pulseWhite {
+    0% {
+        border-color: #333;
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.1),
+                    inset 0 0 20px rgba(255, 255, 255, 0.1);
+    }
+    50% {
+        border-color: #fff;
+        box-shadow: 0 0 30px rgba(255, 255, 255, 0.4),
+                    inset 0 0 30px rgba(255, 255, 255, 0.4);
+    }
+    100% {
+        border-color: #333;
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.1),
+                    inset 0 0 20px rgba(255, 255, 255, 0.1);
+    }
+}
+
+@keyframes pulseGreen {
+    0% {
+        border-color: #333;
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.1),
+                    inset 0 0 20px rgba(255, 255, 255, 0.1);
+    }
+    50% {
+        border-color: #4CAF50;
+        box-shadow: 0 0 30px rgba(76, 175, 80, 0.4),
+                    inset 0 0 30px rgba(76, 175, 80, 0.4);
+    }
+    100% {
+        border-color: #333;
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.1),
+                    inset 0 0 20px rgba(255, 255, 255, 0.1);
+    }
+}
+
+@keyframes pulseRed {
+    0% {
+        border-color: #333;
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.1),
+                    inset 0 0 20px rgba(255, 255, 255, 0.1);
+    }
+    50% {
+        border-color: #ff0000;
+        box-shadow: 0 0 30px rgba(255, 0, 0, 0.4),
+                    inset 0 0 30px rgba(255, 0, 0, 0.4);
+    }
+    100% {
+        border-color: #333;
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.1),
+                    inset 0 0 20px rgba(255, 255, 255, 0.1);
+    }
+}
+
+.game-table.pulse-red {
+    animation: pulseRed 1s ease-out;
+}
+
+.game-table.pulse-white {
+    animation: pulseWhite 0.5s ease-out;
+}
+
+.game-table.pulse-green {
+    animation: pulseGreen 1s ease-out;
+}
+
+.game-table.pulse {
+    animation: tablePulse 0.5s ease-out;
+}
+
+#color-picker {
+    margin: 20px 0;
+}
+
+.color-options {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.color-circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 2px solid transparent;
+    background-color: var(--color);
+}
+
+.color-circle:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.color-circle.selected {
+    border: 2px solid #fff;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+}
+
+#player-list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.player-color-indicator {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Add styles for player seat cards container */
+.player-cards {
+    display: flex;
+    justify-content: center;
+    margin-top: 5px;
+}
+
+.particle {
+    position: fixed;
+    width: 6px;  /* Slightly smaller particles */
+    height: 6px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1000;
+    /* OPTIMIZATION 8: Simplified box-shadow */
+    box-shadow: 0 0 10px 2px currentColor;
+    will-change: transform, opacity;
+    /* OPTIMIZATION 9: Add GPU acceleration */
+    transform: translateZ(0);
+}
+
+.played-card, .card {
+    /* Add to existing styles */
+    animation-duration: 1s; /* You can adjust this value */
+}
+
+/* Optional: Add this if you want to remove the cards after animation */
+.animate__bounceOutDown {
+    pointer-events: none;
+}
+
+#restart-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -250%);
+    z-index: 100000;
+    padding: 15px 30px;
+    font-size: 1.2em;
+    background-color: #ff0000;
+    /* border: 5px solid #000000; */
+    color: #fff;
+    cursor: pointer;  /* Add this line */
+    animation: glowButton 1.5s ease-in-out infinite alternate;
+    pointer-events: auto;  /* Add this line */
+}
+
+@keyframes glowButton {
+    from {
+        box-shadow: 0 0 10px #ff5757, 0 0 20px #f33535, 0 0 30px #ff0000;
+    }
+    to {
+        box-shadow: 0 0 20px #fa5757, 0 0 30px #ff0000, 0 0 40px #ff0000;
+    }
+}
+
+#restart-button:hover {
+    background-color: #ff3333;
+}
+
+@keyframes stackCards {
+    to {
+        transform: translateX(-50%) rotate(0deg);
+        margin-left: 0;
+    }
+}
+
+
+.menu-bar {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 1000;
+}
+
+.menu-button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 20px;
+    padding: 0;
+    display: fixed;
+    text-align: center;
+    padding-left: 5px;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0);
+    z-index: 2000;
+    transition: background-color 0.3s ease;
+}
+
+.modal.show-bg {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.modal-content {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.95);
+    padding: 20px;
+    border: 2px solid #d8d8d8;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 10px;
+    color: #fff;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.7);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.modal.show .modal-content {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #d8d8d8;
+}
+
+.close-button:hover {
+    color: #fff;
+}
